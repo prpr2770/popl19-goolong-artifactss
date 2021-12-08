@@ -1,0 +1,136 @@
+prog(tmp,
+ [	 decl(f0, int),
+	decl(myTerm, map(set(fs), int)),
+	decl(voted, map(set(fs), int)),
+	decl(votedFor, map(set(fs), int)),
+	decl(myVote, map(set(fs), int)),
+	decl(votes, map(set(fs), map(int, int))),
+	decl(resID, map(set(fs), int)),
+	decl(t, map(set(fs), int)),
+	decl(fs,set),
+	decl(term, map(set(cs), int)),
+	decl(id, map(set(cs), int)),
+	decl(vote, map(set(cs), int)),
+	decl(count, map(set(cs), int)),
+	decl(isLeader, map(set(cs), int)),
+	decl(k, map(set(cs), int)),
+	decl(l, map(set(cs), int)),
+	decl(cs,set)],
+ 	ensures(forall([decl(i,int), decl(j,int)],
+			implies(
+					and([
+						elem(i,cs),
+						elem(j,cs),
+						ref(term,i)=ref(term,j),
+						ref(isLeader,j)=1,
+						ref(isLeader,i)=1
+						]),
+					i=j
+				)
+		)),
+ par([
+	sym(F, fs,
+		seq([
+			assign(F,voted,0),
+			for(F, _, cs,
+ 				seq([
+					assign(F,myVote,0),
+					recv(F, pair(resID,t)),
+					ite(F,ref(t,F)>ref(myTerm,F),
+						seq([
+							assign(F,myTerm,ref(t,F)),
+							assign(F,voted,0),
+							assign(F,votedFor,0)
+						]),
+						skip),
+					ite(F,and([ref(myTerm,F)=<ref(t,F),(or([ref(voted,F)=0,ref(votedFor,F)=ref(resID,F)]))]),
+						seq([
+							assign(F,voted,1),
+							assign(F,votedFor,ref(resID,F)),
+							assign(F,votes,upd(ref(votes,F),ref(myTerm,F),ref(resID,F))),
+							assign(F,myVote,1)
+						]),
+						skip),
+					send(F, e_var(resID), myVote)
+				]))
+		])),
+	sym(C, cs,
+		seq([
+						assume(C, forall([decl(i,int)],
+				and([
+					ref(k,i) = card(fs),
+					ref(l,i) = 0
+					])
+					)),			pre(C, and([
+				ref(k,C) = card(fs),
+				ref(l,C) = 0,
+				ref(count,C) = 0,
+				ref(isLeader, C) = 0])),
+			assign(C,isLeader,0),
+			assign(C,count,0),
+			for(C, Peer, fs,
+ 				seq([
+										pre(C, forall([decl(i,int)],
+					implies(
+						elem(i,cs),
+						and([
+							ref(k,i)+ref(l,i) =< card(fs),
+							ref(count,i)=ref(l,i)
+							])
+					 )
+			  )),
+					assign(C,id,C),
+					send(C, e_pid(Peer), pair(id,term)),
+					recv(C, e_pid(Peer), vote),
+					ite(C,ref(vote,C)=1,
+						assign(C,count,ref(count,C)+1),
+						skip),
+					ite(C,and([and([ref(vote,C)=1,ref(votedFor,Peer)=C]),ref(term,C)=ref(myTerm,Peer)]),
+						seq([
+							assign(C,l,ref(l,C)+1),
+							assign(C,k,ref(k,C)-1)
+						]),
+						skip)
+				])),
+						pre(C, forall([decl(i,int), decl(j,int)],
+								implies(
+										and([
+											elem(i,cs),
+											elem(j,cs),
+											ref(count,i) > card(fs)/2,
+											ref(count,j) > card(fs)/2,
+											ref(term,i)=ref(term,j),
+											ref(isLeader,j)=1,
+											ref(isLeader,i)=1
+											]),
+										i=j
+									)
+					 )),			assume(C, elem(f0,fs)),			pre(C, forall([decl(i,int)],
+				implies(
+					and([
+						elem(i,cs),
+						ref(isLeader,i)=1
+						]),
+						card(fs)<ref(count,i)*2)
+				)),			assume(C, forall([decl(i,int), decl(j,int)],
+		 		implies(
+					and([
+						elem(i,cs),
+						elem(j,cs),
+						ref(l,i) > card(fs)/2,
+						ref(l,j) > card(fs)/2
+						]),
+				and([
+					ref(ref(votes,f0),
+					ref(term,i))=i,
+					ref(ref(votes,f0),
+					ref(term,j))=j
+		 			])
+		 	 )
+	 )),
+			ite(C,2*ref(count,C)>card(fs),
+				assign(C,isLeader,1),
+				skip)
+		])),
+	skip]),
+ skip).

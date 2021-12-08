@@ -1,0 +1,70 @@
+prog(tmp,
+ [	decl(proposal, int),
+	decl(vote, int),
+	decl(reply, int),
+	decl(abort, int),
+	decl(committed, int),
+	decl(ack, int),
+	decl(val, map(set(dbs), int)),
+	decl(value, map(set(dbs), int)),
+	decl(decision, map(set(dbs), int)),
+	decl(ackMsg, map(set(dbs), int)),
+	decl(myVote, map(set(dbs), int)),
+	decl(dbs,set)],
+ 	ensures(and([forall([decl(i,int)], implies(and([elem(i,dbs), committed=1]), ref(value,i)=proposal)), forall([decl(i,int)], implies(and([elem(i,dbs), committed=0]), ref(value,i)=0))])),
+ par([
+	skip,
+	sym(DBS, dbs,
+		seq([
+			assign(DBS,value,0),
+			recv(DBS, e_pid(c), val),
+			send(DBS, e_pid(c), myVote),
+			recv(DBS, e_pid(c), decision),
+			ite(DBS,ref(decision,DBS)=1,
+				assign(DBS,value,ref(val,DBS)),
+				skip),
+			assign(DBS,ackMsg,1),
+			send(DBS, e_pid(c), ackMsg)
+		])),
+	seq([
+		assign(c,committed,0),
+		assign(c,abort,0),
+		for(c, ID, dbs, rr, forall([decl(i,int)],
+							implies(
+									and([elem(i,rr)]),
+									and([
+										ref(value,i)=0,
+										ref(val,i)=proposal
+										])
+							)
+					),
+ 			seq([
+				send(c, e_pid(ID), proposal),
+				recv(c, e_pid(ID), vote),
+				ite(c,vote=0,
+					assign(c,abort,1),
+					skip)
+			])),
+		ite(c,abort=0,
+			seq([
+				assign(c,reply,1),
+				assign(c,committed,1)
+			]),
+			assign(c,reply,0)),
+		for(c, ID, dbs, rr, forall([decl(i,int)],
+						and([
+								implies(
+									and([elem(i,rr), committed=1]),
+									ref(value,i)=ref(val,i)
+								),
+								implies(
+									and([elem(i,dbs), committed=0]),
+									ref(value,i)=0)
+					 			])
+		 				),
+ 			seq([
+				send(c, e_pid(ID), reply),
+				recv(c, e_pid(ID), ack)
+			]))
+	])]),
+ skip).
