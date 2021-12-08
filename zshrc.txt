@@ -1,0 +1,10 @@
+alias sicstus="/usr/local/sicstus4.7.0/bin/sicstus"
+alias spld="/usr/local/sicstus4.7.0/bin/spld"
+
+export GOROOT="/usr/local/go"
+export GOPATH="/usr/local/go"
+
+export PATH="\
+$PATH:\
+/usr/local/go/bin:\
+/usr/local/sicstus4.7.0/bin"

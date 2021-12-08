@@ -1,0 +1,83 @@
+# general
+
+- locally testable safety/liveness conditions: of the form ∀ p. QF-φ(p)
+- split the sources into multiple parts/sub-projects
+  * cleaner separation between the runtime and the declarations
+  * so we can use macros for the testing and debugging in the main project
+- find a way to get generic algorithms:
+  currently we have problem with anonymous class (new Process ...)
+  "Parameter type in structural refinement may not refer to an abstract type defined outside that refinement"
+  need to either find a way of processing Process differently or encapsulate instance variables differently
+  it is possible to add the type parameter when rewriting the class ?
+- allow for event driven algorithms
+  make an abstract interface for such rounds (basically add the serialisation automatically)
+- allow for round local variables (reinitialized each time)
+
+
+# runtime
+
+- reduce number of threads, improve pooling:
+    The tricky part is how to deal with contention, i.e., many messages getting at the same time to the same instance.
+    We need some kind of hand-over protocol.
+    There are a few alternatives:
+    * We could we use ForkJoinTask as queue of thing to do.
+      A new task join on the previous task using a java.util.concurrent.atomic.AtomicReference that stores the tail of the task queue.
+      `getAndSet` can be use to adding a new tasks, `compareAndSet` for cleanUp.
+      (do we need locking to avoid weak memory model problem, TODO make some test)
+    * Just use lock (and hope for the best)
+    * Homemade solution lock-free solution
+    The tasks are:
+    * start (prepare)
+    * stop (interrupt/stop)
+    * message (inside run)
+    * timeout (inside run)
+    * defaultHandler (default)
+    Before starting each task, we need to check the instance number
+- more predictable performances when overloaded
+
+
+# verification
+
+- reimplement the extraction using scala-meta
+- Formula:
+    * generalize typer overloading: Int vs Real
+- InstGen
+    * smarter heuristics
+- better structure of the specification:
+    * which invariant we can use to prove what property
+    * add temporal elements to spec/formula
+- allow pure functions in the send method
+- Isabelle
+  * how to have specific proof strategies
+  * how to call our tactic (tryAddVennFact, singleVennIntroNoForce, etc.)
+
+
+# example
+
+- not just algorithms but "complete" systems
+
+
+# network emulation: packet loss, delay, ...
+
+- http://www.linuxfoundation.org/collaborate/workgroups/networking/netem
+- https://gist.github.com/trongthanh/1196596
+- http://www.cs.virginia.edu/~sdb7e/os_project/assignment.html
+
+----------
+    tc qdisc add dev lo root netem delay 100ms loss 0.1%
+    tc qdisc del dev lo root netem
+----------
+    tc qdisc change dev eth0 root netem loss 0.1%
+This causes 1/10th of a percent (i.e 1 out of 1000) packets to be randomly dropped.
+    tc qdisc change dev eth0 root netem loss 0.3% 25%
+This will cause 0.3% of packets to be lost, and each successive probability depends by a quarter on the last one.
+----------
+    tc qdisc change dev eth0 root netem duplicate 1%
+    tc qdisc change dev eth0 root netem corrupt 0.1%
+    tc qdisc change dev eth0 root netem delay 10ms reorder 25% 50%
+In this example, 25% of packets (with a correlation of 50%) will get sent immediately, others will be delayed by 10ms.
+
+# known bugs
+
+* incompleteness in the verification (currently pretty broken)
+

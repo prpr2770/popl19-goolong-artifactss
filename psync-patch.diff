@@ -1,0 +1,83 @@
+diff --git a/.jvmopts b/.jvmopts
+index dea7dcd..e339453 100644
+--- a/.jvmopts
++++ b/.jvmopts
+@@ -1,5 +1,5 @@
+--Xms2048M
+--Xmx2048M
++-Xms500M
++-Xmx500M
+ -Xss6M
+ -XX:ReservedCodeCacheSize=128m
+ -XX:MaxMetaspaceSize=256m
+diff --git a/.jvmopts.old b/.jvmopts.old
+new file mode 100644
+index 0000000..dea7dcd
+--- /dev/null
++++ b/.jvmopts.old
+@@ -0,0 +1,5 @@
++-Xms2048M
++-Xmx2048M
++-Xss6M
++-XX:ReservedCodeCacheSize=128m
++-XX:MaxMetaspaceSize=256m
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000..36b0b49
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,13 @@
++{
++    "files.exclude": {
++        "**/.git": true,
++        "**/.svn": true,
++        "**/.hg": true,
++        "**/CVS": true,
++        "**/.DS_Store": true,
++
++        "**/.ci" : true,
++        "project" : true,
++        "target" : true
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/scala/psync/utils/serialization/KryoRegistration.scala b/src/main/scala/psync/utils/serialization/KryoRegistration.scala
+index 6e67ecd..7dd374a 100644
+--- a/src/main/scala/psync/utils/serialization/KryoRegistration.scala
++++ b/src/main/scala/psync/utils/serialization/KryoRegistration.scala
+@@ -12,6 +12,8 @@ trait KryoRegistration[A] {
+ 
+   def register(kryo: Kryo) = {
+     registerClasses.foreach( kryo.register(_) )
++    kryo.register(classOf[Array[Byte]])
++    kryo.register(classOf[psync.Time])
+     registerClassesWithSerializer.foreach{ case (c, s) => kryo.register(c, s) }
+     kryo
+   }
+diff --git a/src/test/scala/example/PerfTest3.scala b/src/test/scala/example/PerfTest3.scala
+index d5dc1e1..d05f4b3 100644
+--- a/src/test/scala/example/PerfTest3.scala
++++ b/src/test/scala/example/PerfTest3.scala
+@@ -301,7 +301,7 @@ object PerfTest3 extends RTOptions {
+       override def run() {
+         val versionNbr = system.shutdown
+         val end = java.lang.System.currentTimeMillis()
+-        val duration = (end - begin) / 1000
++        val duration = (end - begin) * 1.0
+         println("#decisions = " + versionNbr + ", Δt = " + duration + ", throughput = " + (versionNbr/duration))
+       }
+     }
+diff --git a/test_scripts/testBLV.sh b/test_scripts/testBLV.sh
+index f42b7b9..45af20f 100755
+--- a/test_scripts/testBLV.sh
++++ b/test_scripts/testBLV.sh
+@@ -1,6 +1,9 @@
+ #!/bin/bash
+ source `dirname $0`/deps
+ 
++# trap CTRL-C input, and kill every process created
++trap "pkill -P $$; sleep 1; exit 1;" INT
++
+ t=60
+ 
+ echo running 3 LV replicas for $t seconds

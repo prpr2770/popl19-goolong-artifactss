@@ -1,0 +1,129 @@
+ID:1 ### running 1 LV replica for 12 seconds
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+stopping ...
+#decisions = 341000, Δt = 10173.0, throughput = 33.520102231396834
+stopping ...
+#decisions = 341100, Δt = 10172.0, throughput = 33.533228470310654
+stopping ...
+#decisions = 339900, Δt = 10172.0, throughput = 33.41525756979945
+DONE !
+DONE !
+DONE !
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+ID:1 ### running 1 LV replica for 12 seconds
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+stopping ...
+#decisions = 314700, Δt = 10104.0, throughput = 31.14608076009501
+stopping ...
+#decisions = 313300, Δt = 10159.0, throughput = 30.83964957180825
+stopping ...
+#decisions = 314600, Δt = 10187.0, throughput = 30.882497300481006
+DONE !
+DONE !
+DONE !
+ID:1 ### running 1 LV replica for 12 seconds
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+stopping ...
+#decisions = 339400, Δt = 10168.0, throughput = 33.37922895357986
+stopping ...
+#decisions = 339400, Δt = 10114.0, throughput = 33.55744512556852
+stopping ...
+#decisions = 337300, Δt = 10164.0, throughput = 33.1857536402991
+DONE !
+DONE !
+DONE !
+ID:2 ### running 1 LV replica for 12 seconds
+ID:1 ### running 1 LV replica for 12 seconds
+ID:0 ### running 1 LV replica for 12 seconds
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+stopping ...
+#decisions = 340000, Δt = 10190.0, throughput = 33.36604514229637
+stopping ...
+#decisions = 341000, Δt = 10287.0, throughput = 33.14863419850297
+stopping ...
+#decisions = 341000, Δt = 10141.0, throughput = 33.62587516024061
+DONE !
+DONE !
+DONE !
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+ID:1 ### running 1 LV replica for 12 seconds
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+stopping ...
+#decisions = 318500, Δt = 10135.0, throughput = 31.42575234336458
+stopping ...
+#decisions = 316800, Δt = 10171.0, throughput = 31.147379805328875
+stopping ...
+#decisions = 318400, Δt = 10180.0, throughput = 31.277013752455797
+DONE !
+DONE !
+DONE !
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+ID:1 ### running 1 LV replica for 12 seconds
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+stopping ...
+#decisions = 333100, Δt = 10100.0, throughput = 32.98019801980198
+stopping ...
+#decisions = 330900, Δt = 9992.0, throughput = 33.116493194555645
+stopping ...
+#decisions = 333100, Δt = 10216.0, throughput = 32.605716523101016
+DONE !
+DONE !
+DONE !
+ID:0 ### running 1 LV replica for 12 seconds
+ID:1 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+stopping ...
+#decisions = 327900, Δt = 10141.0, throughput = 32.334089340301745
+stopping ...
+#decisions = 327900, Δt = 10180.0, throughput = 32.210216110019644
+stopping ...
+#decisions = 326700, Δt = 10155.0, throughput = 32.17134416543575
+DONE !
+DONE !
+DONE !
+ID:1 ### running 1 LV replica for 12 seconds
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+stopping ...
+#decisions = 326100, Δt = 10147.0, throughput = 32.13757760914556
+stopping ...
+#decisions = 326100, Δt = 10145.0, throughput = 32.14391325776244
+stopping ...
+#decisions = 325300, Δt = 10161.0, throughput = 32.01456549552209
+DONE !
+DONE !
+DONE !
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+ID:1 ### running 1 LV replica for 12 seconds
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+[[33mWarning[0m] @ TCPPacketServer: Couldn't connect, trying again...
+stopping ...
+#decisions = 324700, Δt = 10167.0, throughput = 31.936657814497885
+stopping ...
+#decisions = 321700, Δt = 10130.0, throughput = 31.75715695952616
+stopping ...
+#decisions = 324700, Δt = 10125.0, throughput = 32.069135802469134
+DONE !
+DONE !
+DONE !
+ID:1 ### running 1 LV replica for 12 seconds
+ID:0 ### running 1 LV replica for 12 seconds
+ID:2 ### running 1 LV replica for 12 seconds
+stopping ...
+#decisions = 330000, Δt = 10181.0, throughput = 32.41331892741381
+stopping ...
+#decisions = 330000, Δt = 10179.0, throughput = 32.41968759210138
+stopping ...
+#decisions = 328800, Δt = 10186.0, throughput = 32.2795994502258
+DONE !
+DONE !
+DONE !

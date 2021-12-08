@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+xfce4-terminal --geometry 120x40 -e "${0:A:h}/gochai/verify-benchmark" --hold

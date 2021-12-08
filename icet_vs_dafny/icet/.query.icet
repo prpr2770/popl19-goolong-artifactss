@@ -1,0 +1,28 @@
+< abort:int := 0; // c <- c
+  committed:int := 0; // c <- c >;
+for A:int : p:set
+  value:int := 0; // A <- A
+  id:int := c; // A <- c
+  val:int := prop; // A <- c
+  if (*)
+    msg:int := 0; // A <- A
+  else
+    msg:int := 1; // A <- A
+  cmsg:int := msg; // c <- A
+  if ((cmsg = 1))
+    abort:int := 1; // c <- c
+  else
+    skip;
+if ((abort = 0))
+  < reply:int := 1; // c <- c
+    committed:int := 1; // c <- c >;
+else
+  reply:int := 0; // c <- c
+for A:int : p:set
+  id:int := c; // A <- c
+  decision:int := reply; // A <- c
+  if ((decision[A] = 1))
+    value:int := val[A]; // A <- A
+  else
+    skip;
+  ack:int := ack; // c <- A

@@ -1,0 +1,7 @@
+*.pem
+.*.swp
+/venv
+*.gz
+*.rpm
+/conf.xml
+*.pyc

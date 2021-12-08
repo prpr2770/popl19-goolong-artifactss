@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+xfce4-terminal --geometry 120x20 -e "${0:A:h}/icet_vs_dafny/line-counts" --hold
